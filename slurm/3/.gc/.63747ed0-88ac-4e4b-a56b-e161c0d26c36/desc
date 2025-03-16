@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=desc          # Job name
+#SBATCH --output=output.log      # Standard output file
+#SBATCH --error=error.log        # Error log file
+#SBATCH --ntasks=1               # Number of tasks
+#SBATCH --cpus-per-task=1       # CPUs per task
+#SBATCH --time=00:00:00          # Maximum runtime (HH:MM:SS)
+#SBATCH --partition=all.q        # Partition name
+#SBATCH --nodelist=gpu01     # Specific node (if needed)
+#SBATCH --account=prj_taegeun
+#SBATCH --nice=500
+unlink .gc/.63747ed0-88ac-4e4b-a56b-e161c0d26c36/$SLURM_JOB_ID 2> /dev/null
+ln -s .63747ed0-88ac-4e4b-a56b-e161c0d26c36 .gc/$SLURM_JOB_ID
+/engrid/ensched/bin/srun /bin/hostname | sort -n | uniq -c | awk -v env_var="$SLURM_JOB_PARTITION" '{print $2,$1,env_var} '> .gc/.63747ed0-88ac-4e4b-a56b-e161c0d26c36/desc_pe_hostfile
+/engrid/ensched/bin/srun -l /bin/hostname | sort -n | awk '{print $2}' | uniq -c | awk '{print $2}' > .gc/.63747ed0-88ac-4e4b-a56b-e161c0d26c36/desc_machines
+source '/home/taegeun/project/DESC_source/PPCF_revision_202503/make_interpolated_boundary/slurm/3/.gc/.63747ed0-88ac-4e4b-a56b-e161c0d26c36/desc_envfile'
+/engrid/ensh/usrbin/jobUpdater START
+source '/home/taegeun/project/DESC_source/PPCF_revision_202503/make_interpolated_boundary/slurm/3/.gc/.63747ed0-88ac-4e4b-a56b-e161c0d26c36/.set_pathenv_desc'
+
+# Execute the main Python script
+python /home/taegeun/project/DESC_source/PPCF_revision_202503/make_interpolated_boundary/python/change_DESC_to_VMEC.py
+
+# Notify via Slack after completion
+python /home/taegeun/slurm/slack_send_notification.py "$SLURM_JOB_ID" "COMPLETED"
+/engrid/ensh/usrbin/jobUpdater END
+
