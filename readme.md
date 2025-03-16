@@ -1,0 +1,1 @@
+This directory is for making affine combinated equilibria between QA, QH, and QI.
