@@ -1,0 +1,1 @@
+export ENSH_HOME=/engrid/ensh JOB_SCRIPT=SBATCH LOGPATH='output.log' JOB_UUID='3fc255f1-4c1d-4a32-ad70-739a531d3377'

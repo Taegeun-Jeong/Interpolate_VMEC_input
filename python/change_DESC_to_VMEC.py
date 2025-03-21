@@ -38,10 +38,10 @@ for i in range(16):
 
 """
 # Exceptionally run 4.
-directory = "/home/taegeun/project/DESC_source/PPCF_revision_202503/make_interpolated_boundary/examples/4_QA6_QH6_QI6_NFP2/run_DESC_with_VMEC_input/"
-k=4
-for i in range(15, 16):
-    for j in range(13,16):
+directory = "/home/taegeun/project/DESC_source/PPCF_revision_202503/make_interpolated_boundary/examples/1_QA6_QH6_QI6/run_DESC_with_VMEC_input/"
+k=1
+for i in range(11, 16):
+    for j in range(i+1):
         print(f"\nEQ_{k}_{i}_{j}")
         try:
             eq = None
